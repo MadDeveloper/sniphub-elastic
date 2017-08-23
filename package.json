@@ -1,0 +1,23 @@
+{
+  "name": "sniphub-elastic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MadDeveloper/sniphub-elastic.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MadDeveloper/sniphub-elastic/issues"
+  },
+  "homepage": "https://github.com/MadDeveloper/sniphub-elastic#readme",
+  "dependencies": {
+    "elasticsearch": "^13.3.1",
+    "firebase": "^4.3.0"
+  }
+}
