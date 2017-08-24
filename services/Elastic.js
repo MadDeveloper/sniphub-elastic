@@ -1,32 +1,53 @@
 const elasticsearch = require('elasticsearch')
+const config = require('../config')
 
 class Elastic {
-    constructor(host = 'localhost:9200') {
-        this.client = new elasticsearch.Client({ 
-            host
-        })
-    }
-
-    create(index, type, document) {
-        // this.client
-        //     .create(this.index, this.type, snap.val(), snap.key())
-        //     .on('data', data => { 
-        //         console.log('indexed ', snap.key()) 
-        //     })
-        //     .on('error', error => { 
-        //         /* handle errors */ 
-        //     })
+    constructor(host = config.elastic.url) {
+        this.client = new elasticsearch.Client({ host })
     }
     
-    update(index, type, document) {
-        
+    async save({ index, type, id, document }) {
+        try {
+            await this.createIndexIfNotExists(index)
+            await this.client.index({
+                index,
+                type,
+                id,
+                body: document
+            })
+
+            console.log(`${id} indexed. index: ${index}, type: ${type}`)
+        } catch (error) {
+            console.error(`Impossible to save the document: ${id}, index: ${index}, type: ${type}.\n${error}`)
+        }
     }
 
-    delete(index, type, id) {
-        // this.client
-        //     .delete({
-        //         index: this.index, this.type, snap.key()
-        //     })
+    async delete({ index, type, id }) {
+        try {
+            await this.client.delete({
+                index,
+                type,
+                id
+            })
+            
+            console.log(`${id} document deleted. index: ${index}, type: ${type}`)
+        } catch (error) {
+            console.error(`Impossible to delete the document: ${id}, index: ${index}, type: ${type}.\n${error}`)
+        }
+    }
+
+    async createIndexIfNotExists(index) {
+        let exists
+
+        try {
+            exists = await this.client.indices.exists({ index })
+        } catch (error) {
+            exists = false
+        }
+
+        if (!exists) {
+            await this.client.indices.create({ index })
+        }
     }
 }
 
