@@ -1,6 +1,6 @@
 module.exports = {
     elastic: {
-        url: 'https://5s886dfw:z7gjc4csm6ylm3zo@pine-2241382.us-east-1.bonsaisearch.net'
+        url: process.env.BONSAI_URL
     },
     firebase: {
         apiKey: "AIzaSyDkAAFfXsr3wvzVem2uQBd3sWGWPyunY8M",
